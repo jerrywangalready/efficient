@@ -4,23 +4,28 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "inspect": "vue-cli-service inspect",
+    "test": "cross-env NODE_ENV=test webpack",
+    "per": "cross-env NODE_ENV=preproduction webpack",
+    "pro": "cross-env NODE_ENV=production webpack"
   },
   "dependencies": {
     "ant-design-vue": "^2.0.0-rc.5",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
-    "element-plus": "^1.0.1-beta.11",
-    "vue": "^3.0.0",
-    "vue-axios": "^3.2.1",
+    "element-plus": "^1.0.1-beta.27",
+    "vue": "^3.0.5",
+    "vue-axios": "^3.2.2",
     "vue-router": "^4.0.0-0",
-    "vuex": "^4.0.0-0"
+    "vuex": "^4.0.0-rc.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0"
+    "@vue/compiler-sfc": "^3.0.0",
+    "crypto-js": "^4.0.0"
   }
 }

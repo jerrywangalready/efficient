@@ -1,7 +1,5 @@
 <template>
-  <div id="app">
-    <router-view/>
-  </div>
+  <router-view/>
 </template>
 
 <script>
@@ -32,6 +30,11 @@ export default {
 
 <style>
 
+body {
+  min-width: 860px;
+  overflow-x: auto;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -39,9 +42,11 @@ export default {
   /*text-align: center;*/
   color: #2c3e50;
 }
+
 #app .j-title {
   font-size: 1.2em;
 }
+
 #nav {
   padding: 30px;
 }

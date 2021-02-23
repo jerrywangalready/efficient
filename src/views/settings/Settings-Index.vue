@@ -1,10 +1,19 @@
 <template>
-<h1>shezhi</h1>
+  <settingUser></settingUser>
+  <settingGroup></settingGroup>
 </template>
 
 <script>
+import settingUser from './Setting-User';
+import settingGroup from './Setting-Group';
+
 export default {
-name: "Settings-Index"
+  name: "Settings-Index",
+  components: {
+    settingUser,
+    settingGroup
+  },
+
 }
 </script>
 

@@ -18,7 +18,7 @@
         </el-table-column>
       </el-table>
     </el-tab-pane>
-    <el-tab-pane label="休息日">
+    <el-tab-pane label="节假日">
       <attendance-holiday></attendance-holiday>
     </el-tab-pane>
     <el-tab-pane label="角色管理">角色管理</el-tab-pane>
@@ -35,13 +35,19 @@ export default {
     attendanceHoliday
   },
   data() {
-    return {}
+    return {
+      tableData: []
+    }
   },
   created() {
   },
   mounted() {
   },
-  methods: {}
+  methods: {
+    tableRowClassName() {
+
+    }
+  }
 }
 </script>
 

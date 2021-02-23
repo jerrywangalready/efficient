@@ -13,24 +13,30 @@ import VueAxios from 'vue-axios'
 axios.defaults.baseURL = 'api'
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.interceptors.request.use(config => {
-    console.log(config);
     // if (store.state.token) {
-        config.headers.common['Authentication-Token'] = '{sid:"8g73hj4hhhbsd", username:"gweu"}';
-        // config.headers.common['Authentication-Token'] = store.state.token;
+    config.headers.common['Authorization'] = store.state.token;
     // }
     return config;
 }, error => {
     return Promise.reject(error);
 });
 axios.interceptors.response.use(response => {
-    return response;
+    if (response.data.dataType === "Authorization" && !response.data.state) {
+        store.commit('token', "");
+        router.replace({path: "/auth"});
+    } else {
+        if (response.data.hasOwnProperty("code") && response.data.code === '0') {
+            alert('权限不足，请联系管理员！')
+        }
+        return response;
+    }
 }, error => {
     if (error.response) {
         switch (error.response.status) {
             case 401:
                 this.$store.commit('del_token');
                 router.replace({
-                    path: '/login',
+                    path: '/auth',
                     query: {redirect: router.currentRoute.fullPath}
                 })
         }
@@ -41,5 +47,30 @@ axios.interceptors.response.use(response => {
 // import Antd from 'ant-design-vue';
 // import 'ant-design-vue/dist/antd.css';
 
-createApp(App).use(store).use(router).use(VueAxios, axios).use(ElementPlus, {locale}).mount('#app')
+Date.prototype.format = function (fmt) {
+    let o = {
+        "M+": this.getMonth() + 1, //月份
+        "d+": this.getDate(), //日
+        "h+": this.getHours() % 12 === 0 ? 12 : this.getHours() % 12, //小时
+        "H+": this.getHours(), //小时
+        "m+": this.getMinutes(), //分
+        "s+": this.getSeconds(), //秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+        "S": this.getMilliseconds() //毫秒
+    };
+    if (/(y+)/.test(fmt))
+        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (let k in o)
+        if (new RegExp("(" + k + ")").test(fmt))
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+}
+
+createApp(App)
+    .use(store)
+    .use(router)
+    .use(VueAxios, axios)
+    .use(ElementPlus, {locale})
+    // .use(i18nPlugin, i18nStrings)
+    .mount('#app')
 

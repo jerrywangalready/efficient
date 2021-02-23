@@ -9,7 +9,13 @@ const routes = [
         path: '/login',
         name: 'Login',
         title: '登录',
-        component: () => import('@/views/login/Login')
+        component: () => import('@/views/auth/Login')
+    },
+    {
+        path: '/signup',
+        name: 'Signup',
+        title: '注册',
+        component: () => import('@/views/auth/Signup')
     },
     {
         path: '/',
@@ -19,7 +25,7 @@ const routes = [
                 path: '/home',
                 name: 'Home',
                 components: {
-                default: Home,
+                    default: Home,
                     'config': Config
                 }
             },
@@ -53,7 +59,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    if (to.name !== 'Login' && store.state.token.authorized !== true) {
+    if (to.name !== 'Login' && to.name !== 'Signup' && store.state.token === "") {
         next({name: 'Login'})
     } else {
         if (to.path === '/' || to.matched.length === 0)

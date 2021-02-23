@@ -1,13 +1,16 @@
 <template>
   <el-alert :closable="false"
-            title="通过点击日期来标记或取消假期"
+            title="通过点击日期来标记或取消假期，实心红圆代表休一天，空心红圈代表休半天"
             type="info">
   </el-alert>
 
-  <el-calendar v-model="calenderDay" @date-change="change">
+  <el-calendar v-model="calenderDay">
     <template #dateCell="{data}">
       <div style="height: 100%; text-align: center;" @click="choseDay(data.day)">
-            <span :class="[holidays.filter(item => item === data.day).length > 0 ? 'is-holiday' : '', 'calender-font']">
+            <span
+                :class="['calender-font'
+                , holidays.filter(item => item.holiday === data.day && item.during === 'd').length > 0 ?'holiday-d' : ''
+                , holidays.filter(item => item.holiday === data.day && item.during === 'pm').length > 0 ? 'holiday-pm':'']">
               {{ data.day.split('-')[2] }}
             </span>
       </div>
@@ -15,7 +18,7 @@
   </el-calendar>
 
   <div class="center">
-  <!--  <el-button type="primary" @click="initHolidays">initHolidays</el-button>-->
+    <!--  <el-button type="primary" @click="initHolidays">initHolidays</el-button>-->
     <el-button v-if="holidaysCatch.length >0 " type="primary" @click="saveHolidays">保存</el-button>
     <el-button v-if="holidaysCatch.length >0 " type="primary" @click="cancel">取消</el-button>
 
@@ -23,15 +26,19 @@
 </template>
 
 <script>
+import { ElMessage } from 'element-plus'
+// import myTest from "@/api";
+// import {myPost} from '@/api/ajax'
 export default {
   name: "Attendance-holiday", data() {
     return {
-      calenderDay: '',
+      calenderDay: new Date(),
       holidays: [],
       holidaysCatch: []
     }
   },
-  created: function() {
+  created: function () {
+
     this.$nextTick(() => {
       // 点击前一个月
       let prevBtn = document.querySelector(
@@ -64,24 +71,25 @@ export default {
   methods: {
     choseDay(day) {
       let checked = false;
-      for (let i = 0; i < this.holidays.length; i++) {
-        if (this.holidays[i] === day) {
+      this.holidays.forEach((item, index, arr) => {
+        if (item.holiday === day) {
           checked = true
-          delete this.holidays[i];
-          this.theDayIsWorkDay(day);
-          break;
+          if (item.during === 'd') {
+            item.during = 'pm'
+            this.holidaysCatch.push({opt: "0", day: day})
+          } else {
+            arr.splice(index, 1);
+            this.holidaysCatch.push({opt: "-1", day: day})
+          }
+          return false;
         }
-      }
+      })
+
       if (!checked) {
-        this.holidays.push(day);
-        this.theDayIsHoliday(day);
+        this.holidays.push({during: 'd', holiday: day});
+        this.holidaysCatch.push({opt: "1", day: day})
+        checked = true;
       }
-    },
-    theDayIsHoliday(day) {
-      this.holidaysCatch.push({opt: "1", day: day})
-    },
-    theDayIsWorkDay(day) {
-      this.holidaysCatch.push({opt: "-1", day: day})
     },
     initCalendar(date) {
       if (date === undefined) {
@@ -91,22 +99,42 @@ export default {
       param.year = date.getFullYear();
       param.month = date.getMonth() + 1;
 
-      let that = this;
-      this.axios.post("/holiday/getHolidaysByYear", param).then(function (response) {
-        that.holidays = response.data;
-      }).catch(function (error) {
+      this.axios.post("/holiday/getHolidaysByYear", param).then((response) => {
+        this.holidays = response.data;
+        // 将catch中暂存的日期补充到holidays对象中
+        this.holidaysCatch.forEach(item => {
+          if (item.opt === '1') {
+            this.holidays.push({during: 'd', holiday: item.day})
+          } else if (item.opt === '0') {
+            this.holidays.filter(h => h.holiday === item.day)[0].during = 'pm';
+          } else {
+            this.holidays.forEach((h,index,arr)=>{
+              if (h.holiday === item.day) {
+                this.holidays.splice(index, 1)
+              }
+            })
+          }
+
+        });
+      }).catch((error) => {
 
       });
     },
     initHolidays() {
-      this.axios.post("/holiday/initHolidaysByYear", 2021).then(function (response) {
-      }).catch(function (error) {
+      this.axios.post("/holiday/initHolidaysByYear", 2021).then((response) => {
+
+      }).catch((error) => {
 
       });
     },
     saveHolidays() {
-      this.axios.post("/holiday/updateHolidays", this.holidaysCatch).then(function (response) {
-      }).catch(function (error) {
+      this.axios.post("/holiday/updateHolidays", this.holidaysCatch).then((response) => {
+        this.holidaysCatch = [];
+        ElMessage.success({
+          message: '保存成功!',
+          type: 'success'
+        });
+      }).catch((error) => {
 
       });
     },
@@ -141,15 +169,21 @@ export default {
   font-size: 21px;
   position: relative;
   top: 30px;
-  padding: 10px 12px;
   border-radius: 45px;
+  user-select: none;
 }
 
-.is-holiday {
+.holiday-d {
+  padding: 10px 12px;
   color: #ffffff;
   font-weight: bold;
   background: #F56C6C;
+}
 
+.holiday-pm {
+  padding: 5px 7px;
+  font-weight: bold;
+  border: 5px solid #F56C6C;
 }
 </style>
 <style>

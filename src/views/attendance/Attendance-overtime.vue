@@ -1,30 +1,30 @@
 <template>
   <el-button class="shadow" type="success" @click="dialogVisible = true">加班</el-button>
   <el-dialog title="加班申请" v-model="dialogVisible" width="490px">
-    <el-form :model="overtimeForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+    <el-form :model="overtimeForm" :rules="rules" ref="overtimeForm" label-width="100px" class="demo-ruleForm">
       <el-form-item label="加班日期" required>
         <div class="block">
           <el-date-picker
-              v-model="overtimeForm.date"
+              v-model="overtimeForm.overtimeDate"
               type="date"
               placeholder="选择日期"
               style="width: 100%">
           </el-date-picker>
         </div>
       </el-form-item>
-      <el-form-item label="加班时间" required>
-        <el-time-picker
-            is-range
-            v-model="overtimeForm.time"
-            range-separator="-"
-            start-placeholder="开始时间"
-            end-placeholder="结束时间"
-            placeholder="选择时间范围"
-       >
-        </el-time-picker>
-      </el-form-item>
-      <el-form-item label="请假事由" prop="desc">
-        <el-input type="textarea" v-model="overtimeForm.desc"></el-input>
+<!--      <el-form-item label="加班时间" required>-->
+<!--        <el-time-picker-->
+<!--            is-range-->
+<!--            v-model="overtimeForm.time"-->
+<!--            range-separator="-"-->
+<!--            start-placeholder="开始时间"-->
+<!--            end-placeholder="结束时间"-->
+<!--            placeholder="选择时间范围"-->
+<!--       >-->
+<!--        </el-time-picker>-->
+<!--      </el-form-item>-->
+      <el-form-item label="加班事由" prop="desc">
+        <el-input type="textarea" v-model="overtimeForm.reason"></el-input>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -43,48 +43,33 @@ export default {
     return {
       dialogVisible: false,
       overtimeForm: {
-        date: '',
-        time: '',
-        name: '',
-        type: '',
-        leaveTime: '',
-        date2: '',
-        delivery: false,
-        resource: '',
-        desc: ''
+        overtimeDate: '',
+        reason: ''
       },
       rules: {
-        name: [
-          {required: true, message: '请输入活动名称', trigger: 'blur'},
-          {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
-        ],
-        type: [
-          {required: true, message: '请选择请假类型', trigger: 'change'}
-        ],
-        leaveTime: [
+        overtimeDate: [
           {type: 'date', required: true, message: '请选择日期', trigger: 'change'}
         ],
-        // type: [
-        //   { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
-        // ],
-        resource: [
-          {required: true, message: '请选择活动资源', trigger: 'change'}
-        ],
-        desc: [
-          {required: true, message: '请填写活动形式', trigger: 'blur'}
+        reason: [
+          {required: true, message: '请填写加班事由', trigger: 'blur'}
         ]
-      },
-      defaultTime2: [
-        new Date(2000, 1, 1, 12, 0, 0),
-        new Date(2000, 2, 1, 8, 0, 0)
-      ]
+      }
     }
   },
   methods: {
     submitForm(formName) {
+      // todo 选项应该是节假日,默认是最近的节假日
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          let param = {};
+          param.overtimeDate = this.overtimeForm.overtimeDate.format("yyyy-MM-dd");
+          param.reason = this.overtimeForm.reason;
+          this.axios.post("/overtime/apply", param).then(response => {
+            if (response.data) {
+              this.dialogVisible = false;
+            }
+          }).catch(err => {
+          })
         } else {
           console.log('error submit!!');
           return false;

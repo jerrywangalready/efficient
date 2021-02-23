@@ -3,7 +3,7 @@
   <!--    <el-main style="padding-top: 0">-->
   <el-row>
     <el-col :span="24" style="overflow-x: auto">
-      <h1 class="j-title" style="font-size: 1.2em">近期请假人员</h1>
+      <h1 class="j-title">近期请假人员</h1>
       <el-card>
         <div style="width: 1320px;height: auto">
           <div class="day-label">
@@ -46,6 +46,7 @@
             <el-table :data="tableData"
                       style="width: 100%"
                       :row-class-name="tableRowClassName">
+              <el-table-column prop="type" label="类型" width="180"></el-table-column>
               <el-table-column prop="date" label="日期" width="180"></el-table-column>
               <el-table-column prop="name" label="姓名" width="180"></el-table-column>
               <el-table-column prop="address" label="地址"></el-table-column>
@@ -129,18 +130,22 @@ export default {
         hour: 6
       },
       tableData: [{
+        type: 'leave',
         date: '2016-05-02',
         name: '王小虎',
         address: '上海市普陀区金沙江路 1518 弄',
       }, {
+        type: 'leave',
         date: '2016-05-04',
         name: '王小虎',
         address: '上海市普陀区金沙江路 1518 弄'
       }, {
+        type: 'leave',
         date: '2016-05-01',
         name: '王小虎',
         address: '上海市普陀区金沙江路 1518 弄',
       }, {
+        type: 'leave',
         date: '2016-05-03',
         name: '王小虎',
         address: '上海市普陀区金沙江路 1518 弄'
