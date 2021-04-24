@@ -99,6 +99,7 @@ export default {
       param.year = date.getFullYear();
       param.month = date.getMonth() + 1;
 
+      // this.axios.post("/holiday/test", param).then((response) => {
       this.axios.post("/holiday/getHolidaysByYear", param).then((response) => {
         this.holidays = response.data;
         // 将catch中暂存的日期补充到holidays对象中
@@ -184,6 +185,10 @@ export default {
   padding: 5px 7px;
   font-weight: bold;
   border: 5px solid #F56C6C;
+}
+td.next .holiday-d {
+  opacity: 0.5;
+
 }
 </style>
 <style>

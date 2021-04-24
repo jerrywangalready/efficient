@@ -1,0 +1,24 @@
+.page-comm {
+    float: right;
+    margin-top: 15px;
+    /*margin-bottom: 15px;*/
+}
+
+.button-box {
+    float: right;
+    margin-bottom: 10px;
+}
+
+/*element样式覆盖*/
+.el-card__body {
+    padding: 15px;
+    overflow: hidden;
+}
+
+.el-table .table-header,.el-table .table-header th {
+    /*background-color: #409EFF;*/
+    background-color: #007AFF;
+    /*background-color: rgba(64, 158, 255, 0.11);*/
+    color: #ffffff;
+    /*color: #3e3e3e;*/
+}

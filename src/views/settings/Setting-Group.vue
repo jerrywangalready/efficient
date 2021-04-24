@@ -121,7 +121,7 @@ export default {
   methods: {
     initGroupList() {
 
-      this.axios.post("/user/getGroupsNMembers").then(response => {
+      this.axios.post("/group/getGroupsNMembers").then(response => {
         this.groups = response.data
         this.groups.forEach(item => {
           item.members.forEach((member, index, arr) => {
@@ -177,7 +177,7 @@ export default {
           this.groupForm.members.forEach(item => {
             param.members.push({username: item, leader: ""})
           })
-          this.axios.post("/user/saveGroup", param).then(response => {
+          this.axios.post("/group/saveGroup", param).then(response => {
             console.log(response.data);
             if (response.data) {
               ElMessage.success({

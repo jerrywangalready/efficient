@@ -85,6 +85,9 @@ export default {
       });
     },
     login() {
+      // 清空本地token
+      localStorage.clear();
+
       let encrypt = AES.encrypt(this.form.password);
       this.axios.post("/login", {
         username: this.form.username,
@@ -92,10 +95,10 @@ export default {
       }).then(response => {
         console.log(response);
         if (response.data.code === 0) {
-          this.$store.commit('token', response.data.token);
-          this.$store.commit('user', response.data.username);
-          this.$store.commit('role', response.data.auth);
+
+          this.saveInfo2Storage(response);
           this.$router.push({name: 'Home'});
+
         } else {
           this.errorInfo.state = true;
           this.errorInfo.title = response.data.msg;
@@ -103,6 +106,13 @@ export default {
       }).catch(error => {
 
       });
+    },
+    saveInfo2Storage(response) {
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', response.data.username);
+      localStorage.setItem('role', response.data.auth);
+      let now = new Date().getTime();
+      localStorage.setItem("hf_time", now);
     },
     signup() {
       this.$router.push({name: 'Signup'})

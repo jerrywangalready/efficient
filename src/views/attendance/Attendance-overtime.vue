@@ -1,5 +1,5 @@
 <template>
-  <el-button class="shadow" type="success" @click="dialogVisible = true">加班</el-button>
+  <el-button class="shadow" type="success" @click="dialogVisible = true" round>加班</el-button>
   <el-dialog title="加班申请" v-model="dialogVisible" width="490px">
     <el-form :model="overtimeForm" :rules="rules" ref="overtimeForm" label-width="100px" class="demo-ruleForm">
       <el-form-item label="加班日期" required>

@@ -59,9 +59,13 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    if (to.name !== 'Login' && to.name !== 'Signup' && store.state.token === "") {
+    console.log("to:" + to)
+    console.log("from:" + from)
+    console.log("next" + next)
+    if (to.name !== 'Login' && to.name !== 'Signup' && (localStorage.getItem('token') == null || localStorage.getItem('token') === "")) {
         next({name: 'Login'})
     } else {
+        console.log(to.path === '/' || to.matched.length === 0)
         if (to.path === '/' || to.matched.length === 0)
             next({name: 'Home'})
         else

@@ -43,33 +43,66 @@
         <el-main style="padding: 10px">
           <h1 class="j-title">我的记录</h1>
           <el-card>
-            <el-table :data="tableData"
-                      style="width: 100%"
-                      :row-class-name="tableRowClassName">
-              <el-table-column prop="type" label="类型" width="180"></el-table-column>
-              <el-table-column prop="date" label="日期" width="180"></el-table-column>
-              <el-table-column prop="name" label="姓名" width="180"></el-table-column>
-              <el-table-column prop="address" label="地址"></el-table-column>
-              <el-table-column label="操作" width="200px">
-                <template #default="scope">
-                  <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">查看</el-button>
-                  <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">撤销</el-button>
-                </template>
-              </el-table-column>
-            </el-table>
+            <div class="block">
+              <el-timeline>
+                <el-timeline-item timestamp="创建时间：2018-4-12 13:12:05" placement="top">
+                  <el-card>
+                    <h4>请假</h4>
+                    <p>王小虎 提交于 2018/4/12 20:46</p>
+                  </el-card>
+                </el-timeline-item>
+                <el-timeline-item timestamp="创建时间：2018/4/3 15:09:16" placement="top">
+                  <el-card>
+                    <h4>加班</h4>
+                    <p>王小虎 提交于 2018/4/3 20:46</p>
+                  </el-card>
+                </el-timeline-item>
+                <el-timeline-item timestamp="创建时间：2018/4/2 08:32:01" placement="top">
+                  <el-card>
+                    <h4>旷工</h4>
+                    <p>王小虎 提交于 2018/4/2 20:46</p>
+                  </el-card>
+                </el-timeline-item>
+                <el-timeline-item timestamp="创建时间：2018/4/2 08:32:01" placement="top">
+                  <el-card>
+                    <h4>迟到/早退 超限</h4>
+                    <p>王小虎 提交于 2018/4/2 20:46</p>
+                  </el-card>
+                </el-timeline-item>
+                <el-timeline-item timestamp="创建时间：2018/4/2 08:32:01" placement="top">
+                  <el-card>
+                    <h4>漏打卡 超限</h4>
+                    <p>王小虎 提交于 2018/4/2 20:46</p>
+                  </el-card>
+                </el-timeline-item>
+              </el-timeline>
+            </div>
           </el-card>
         </el-main>
         <el-aside style="padding: 10px">
           <h1 class="j-title" style="margin: 1em 0">剩余调休</h1>
           <el-card class="box-card vacation-balance" :body-style="{ padding: '20px'}" style="margin: 0">
             <p>
-              <span class="figure">{{ vacationBalance.day }}</span>
-              <span class="unit">天</span>
+              <!--              <span class="figure">{{ vacationBalance.day }}</span>-->
+              <!--              <span class="unit">天</span>-->
               <span class="figure">{{ vacationBalance.hour }}</span>
               <span class="unit">时</span>
             </p>
             <div style="text-align: center; padding-left: 12px">
               <el-space size="medium">
+                <!--                <el-upload style="margin-left: 8px;"-->
+                <!--                           class="upload-demo inline-block margin-right-10"-->
+                <!--                           action=""-->
+                <!--                           :on-change="handleChange"-->
+                <!--                           :show-file-list="false"-->
+                <!--                           :on-remove="handleRemove"-->
+                <!--                           :file-list="fileListUpload"-->
+                <!--                           :limit="limitUpload"-->
+                <!--                           accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"-->
+                <!--                           :auto-upload="false">-->
+                <!--                  <el-button  type="primary">导入</el-button>-->
+                <!--                </el-upload>-->
+
                 <AttendanceLeave></AttendanceLeave>
                 <AttendanceOvertime></AttendanceOvertime>
               </el-space>
@@ -86,13 +119,13 @@
     </el-col>
   </el-row>
 
-<!--  <ul>-->
-<!--    <li v-for="product in saleProducts">-->
-<!--      <span>{{ product.name }}</span>-->
-<!--      <span>${{ product.price }}</span>-->
-<!--    </li>-->
-<!--  </ul>-->
-<!--  <el-button type="primary" @click="reducePrice(3)">buttonCont</el-button>-->
+  <!--  <ul>-->
+  <!--    <li v-for="product in saleProducts">-->
+  <!--      <span>{{ product.name }}</span>-->
+  <!--      <span>${{ product.price }}</span>-->
+  <!--    </li>-->
+  <!--  </ul>-->
+  <!--  <el-button type="primary" @click="reducePrice(3)">buttonCont</el-button>-->
   <!--    </el-main>-->
   <!--    <el-aside>-->
 
@@ -100,14 +133,12 @@
   <!--      <modal-button></modal-button>-->
   <!--    </el-aside>-->
   <!--  </el-container>-->
-
 </template>
 
 <script>
 import AttendanceLeave from './Attendance-leave'
 import AttendanceOvertime from './Attendance-overtime'
 import AttendanceConfig from './Attendance-config'
-import {mapGetters, mapActions, mapMutations} from "vuex";
 
 export default {
   components: {
@@ -115,41 +146,12 @@ export default {
     AttendanceOvertime,
     AttendanceConfig
   },
-  computed: {
-    products() {
-      return this.$store.state.products;
-    },
-    ...mapGetters([
-      "saleProducts"
-    ])
-  },
   data() {
     return {
       vacationBalance: {
         day: 3,
-        hour: 6
+        hour: 76
       },
-      tableData: [{
-        type: 'leave',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-      }, {
-        type: 'leave',
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        type: 'leave',
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-      }, {
-        type: 'leave',
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }],
       leaveOfficers: [
         {
           day: 30,
@@ -177,30 +179,138 @@ export default {
         {day: 10, isHodiday: true, officers: []},
         {day: 11, officers: []}
       ],
-      dialogVisible: false
+      dialogVisible: false,
+
     }
   },
   methods: {
     tableRowClassName({row, rowIndex}) {
-      if (rowIndex === 1) {
+      console.log(row);
+      if (row.type === 'leave') {
         return 'warning-row';
-      } else if (rowIndex === 3) {
+      } else if (row.type === 'overtime') {
         return 'success-row';
       }
       return '';
     },
+
+    // handleChange(file, fileList) {
+    //   this.fileTemp = file.raw
+    //   let fileName = file.raw.name
+    //   let fileType = fileName.substring(fileName.lastIndexOf('.') + 1);
+    //   // 判断上传文件格式
+    //   if (this.fileTemp) {
+    //     if ((fileType == 'xlsx') || (fileType == 'xls')) {
+    //       this.importf(this.fileTemp)
+    //     } else {
+    //       this.$message({
+    //         type: 'warning',
+    //         message: '附件格式错误，请删除后重新上传！'
+    //       })
+    //     }
+    //   } else {
+    //     this.$message({
+    //       type: 'warning',
+    //       message: '请上传附件！'
+    //     })
+    //   }
+    // },
+    // // 移除excel表
+    // handleRemove(file, fileList) {
+    //   this.fileTemp = null
+    // },
+    // importExcel(){
+    //   this.$http({
+    //     url: XXXX',
+    //     method: 'post',
+    //     data: this.accountList
+    //   }).then(({data}) => {
+    //     if (data && data.code === 0) {
+    //       this.$message({
+    //         message: '操作成功',
+    //         type: 'success',
+    //         duration: 1500
+    //       })
+    //       this.getDataList()
+    //     }
+    //   })
+    //   this.dialogVisible = false;
+    // },
+    // handleClose(done) {
+    //   this.dialogVisible = false;
+    // },
+    // //导入的方法
+    // importf(obj) {
+    //   this.dialogVisible = true;
+    //   let _this = this;
+    //   let inputDOM = this.$refs.inputer;   // 通过DOM取文件数据
+    //   this.file = event.currentTarget.files[0];
+    //   var rABS = false; //是否将文件读取为二进制字符串
+    //   var f = this.file;
+    //   var reader = new FileReader();
+    //   //if (!FileReader.prototype.readAsBinaryString) {
+    //   FileReader.prototype.readAsBinaryString = function (f) {
+    //     var binary = "";
+    //     var rABS = false; //是否将文件读取为二进制字符串
+    //     var pt = this;
+    //     var wb; //读取完成的数据
+    //     var outdata;
+    //     var reader = new FileReader();
+    //     reader.onload = function (e) {
+    //       var bytes = new Uint8Array(reader.result);
+    //       var length = bytes.byteLength;
+    //       for (var i = 0; i < length; i++) {
+    //         binary += String.fromCharCode(bytes[i]);
+    //       }
+    //       var XLSX = require('xlsx');
+    //       if (rABS) {
+    //         wb = XLSX.read(btoa(fixdata(binary)), { //手动转化
+    //           type: 'base64'
+    //         });
+    //       } else {
+    //         wb = XLSX.read(binary, {
+    //           type: 'binary'
+    //         });
+    //       }
+    //       // outdata就是你想要的东西 excel导入的数据
+    //       outdata = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
+    //       // excel 数据再处理
+    //       let arr = []
+    //       outdata.map(v => {
+    //         // let jsonString = JSON.stringify(v).replace(/\*/g, '').replace(/\s/ig,'');
+    //         let jsonString = JSON.stringify(v).replace(/\//g, '').replace(/\s/ig,'');
+    //         debugger;
+    //         console.log(jsonString);
+    //         v = JSON.parse(jsonString);
+    //         let obj = {}
+    //         //xxx代表列名
+    //         obj.riskType = v.xxx
+    //         obj.riskDescription = v.xxx
+    //         obj.typeAccident = v.xxx
+    //         obj.riskLevel = v.xxx
+    //         obj.controlMeasures = v.xxx
+    //         obj.hierarchyManage = v.xxx
+    //         obj.orgLiableDict = v.xxx
+    //         obj.personLiableDict = v.xxx
+    //         // obj.id = v.id
+    //         arr.push(obj)
+    //       })
+    //       _this.accountList = [...arr];
+    //     }
+    //     reader.readAsArrayBuffer(f);
+    //   }
+    //   if (rABS) {
+    //     reader.readAsArrayBuffer(f);
+    //   } else {
+    //     reader.readAsBinaryString(f);
+    //   }
+    // },
     handleEdit() {
 
     },
     handleDelete() {
 
-    },
-    ...mapActions([
-      'syncReducePrice'
-    ]),
-    ...mapMutations([
-      'reducePrice'
-    ])
+    }
   }
 }
 </script>
@@ -259,5 +369,13 @@ export default {
 
 .vacation-balance .unit {
   font-size: 30px;
+}
+
+.el-table .warning-row {
+  background: oldlace;
+}
+
+.el-table .success-row {
+  background: #f0f9eb;
 }
 </style>

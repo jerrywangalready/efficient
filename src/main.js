@@ -6,43 +6,10 @@ import locale from 'element-plus/lib/locale/lang/zh-cn'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
+import {VueAxios, axios} from "./plugins/axios";
+import '@/assets/theme/element-#007AFF/index.css'
+import '@/assets/css/common.css'
 
-// App.prototype.$axios = axios; // 挂载到原型上 全局可以访问
-axios.defaults.baseURL = 'api'
-axios.defaults.headers.post['Content-Type'] = 'application/json';
-axios.interceptors.request.use(config => {
-    // if (store.state.token) {
-    config.headers.common['Authorization'] = store.state.token;
-    // }
-    return config;
-}, error => {
-    return Promise.reject(error);
-});
-axios.interceptors.response.use(response => {
-    if (response.data.dataType === "Authorization" && !response.data.state) {
-        store.commit('token', "");
-        router.replace({path: "/auth"});
-    } else {
-        if (response.data.hasOwnProperty("code") && response.data.code === '0') {
-            alert('权限不足，请联系管理员！')
-        }
-        return response;
-    }
-}, error => {
-    if (error.response) {
-        switch (error.response.status) {
-            case 401:
-                this.$store.commit('del_token');
-                router.replace({
-                    path: '/auth',
-                    query: {redirect: router.currentRoute.fullPath}
-                })
-        }
-    }
-    return Promise.reject(error.response.data);
-})
 
 // import Antd from 'ant-design-vue';
 // import 'ant-design-vue/dist/antd.css';

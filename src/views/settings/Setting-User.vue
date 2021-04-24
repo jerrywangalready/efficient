@@ -3,11 +3,12 @@
   <el-row :gutter="10">
     <el-col :span="24">
       <el-card>
-        <div style="width: 100%;height: auto">
+<!--        <div style="width: 100%;height: auto;">-->
           <!--          <el-button type="primary">新增</el-button>-->
           <el-table
-              :data="tableData"
+              :data="tableData.list"
               border
+              header-row-class-name="table-header"
               style="width: 100%">
             <el-table-column
                 prop="userName"
@@ -29,7 +30,8 @@
                 label="角色">
               <template #default="scope">
                 <div v-if="scope.row.roleDescriptions" class="name-wrapper">
-                  <el-tag class="role" v-for="(item,index) in (scope.row.roleDescriptions||'').split(',')" :key="index" size="medium">
+                  <el-tag class="role" v-for="(item,index) in (scope.row.roleDescriptions||'').split(',')" :key="index"
+                          size="medium">
                     {{ item }}
                   </el-tag>
                 </div>
@@ -52,7 +54,16 @@
               </template>
             </el-table-column>
           </el-table>
-        </div>
+          <el-pagination class="page-comm"
+                         @size-change="handleSizeChange"
+                         @current-change="handleCurrentChange"
+                         v-model:currentPage="tableData.pageNum"
+                         :page-sizes="[10, 20, 50, 100]"
+                         :page-size="10"
+                         layout="sizes, prev, pager, next"
+                         :total="tableData.total">
+          </el-pagination>
+<!--        </div>-->
       </el-card>
     </el-col>
   </el-row>
@@ -64,7 +75,11 @@ export default {
   name: "Setting-Group",
   data() {
     return {
-      tableData: []
+      tableData: {
+        list: [],
+        pageNum: 1,
+        pageSize: 10
+      },
     }
   },
   mounted() {
@@ -72,12 +87,23 @@ export default {
   },
   methods: {
     initUserGrid() {
-      this.axios.post("/user/getUsersGrid", {}).then(response => {
+      this.axios.post("/user/getUsersGrid", {
+        pageNum: this.tableData.pageNum,
+        pageSize: this.tableData.pageSize
+      }).then(response => {
         this.tableData = response.data;
         console.log(response);
       }).catch(err => {
       })
 
+    },
+    handleCurrentChange(pageNum) {
+      this.tableData.pageNum = pageNum;
+      this.initUserGrid();
+    },
+    handleSizeChange(pageSize) {
+      this.tableData.pageSize = pageSize;
+      this.initUserGrid();
     }
   }
 }
@@ -87,4 +113,6 @@ export default {
 .role {
   margin-right: 10px;
 }
+
+
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <el-button class="shadow" type="danger" @click="dialogVisible = true">请假</el-button>
+  <el-button class="shadow" type="danger" @click="dialogVisible = true" round>请假</el-button>
   <el-dialog title="请假申请" v-model="dialogVisible" width="540px">
     <el-form :model="leaveForm" :rules="rules" ref="leaveForm" label-width="100px" class="demo-ruleForm">
       <el-form-item label="请假类型" prop="type">

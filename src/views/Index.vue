@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header>
-      <el-menu :default-active="$route.name" class="el-menu-demo" mode="horizontal">
+      <el-menu :default-active="$route.name" class="el-menu-index" mode="horizontal">
         <el-menu-item index="Home" @click="to('Home')">首页</el-menu-item>
         <el-menu-item index="Attendance" @click="to('Attendance')">考勤</el-menu-item>
         <el-menu-item index="Performance" disabled>绩效</el-menu-item>
@@ -10,25 +10,31 @@
       </el-menu>
       <!--      <div class="name-board">-->
       <ul class="name-bar">
-        <li>
-          <el-avatar size="large"></el-avatar>
-<!--          <el-popover-->
-<!--              placement="bottom-end"-->
-<!--              :width="400"-->
-<!--              trigger="hover"-->
-<!--          >-->
-<!--            <template #reference>-->
-<!--              <el-button>{{ fullName }}</el-button>-->
-<!--&lt;!&ndash;              <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>&ndash;&gt;-->
-<!--            </template>-->
-<!--            -->
-<!--          </el-popover>-->
+        <li style="padding-top: 5px; padding-right: 20px">
+          <el-badge :value="100" :max="99" class="item">
+            <i class="el-icon-message eff-message"></i>
+<!--            <el-button circle size="small" icon="el-icon-message"></el-button>-->
+          </el-badge>
         </li>
-                  <li><span style="font-size: 14px">{{ fullName }}</span></li>
-                  <li>
-                    <el-button round @click="logout" size="small">退出</el-button>
-        <!--            <el-button icon="el-icon-switch-button" circle @click="logout"></el-button>-->
-                  </li>
+        <li>
+          <el-avatar shape="square" size="large"></el-avatar>
+          <!--          <el-popover-->
+          <!--              placement="bottom-end"-->
+          <!--              :width="400"-->
+          <!--              trigger="hover"-->
+          <!--          >-->
+          <!--            <template #reference>-->
+          <!--              <el-button>{{ fullName }}</el-button>-->
+          <!--&lt;!&ndash;              <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>&ndash;&gt;-->
+          <!--            </template>-->
+          <!--            -->
+          <!--          </el-popover>-->
+        </li>
+        <li><span style="font-size: 14px">{{ fullName }}</span></li>
+        <li>
+          <el-button round @click="logout" size="small">退出</el-button>
+          <!--            <el-button icon="el-icon-switch-button" circle @click="logout"></el-button>-->
+        </li>
       </ul>
       <!--      </div>-->
     </el-header>
@@ -36,7 +42,13 @@
       <router-view></router-view>
     </el-main>
     <el-footer>
-
+      <div>
+        <!--        <span>Copyright © 2021 Jerry Wang. All rights reserved </span>-->
+        <!--        <el-divider direction="vertical"></el-divider>-->
+        <!--        <span>技术栈</span>-->
+        <!--        <el-divider direction="vertical"></el-divider>-->
+        <!--        <span>草木深</span>-->
+      </div>
     </el-footer>
   </el-container>
 </template>
@@ -83,6 +95,7 @@ export default {
     init() {
       this.axios.post("/user/getBasicInfo").then(response => {
         this.fullName = response.data.fullName
+        console.log(this.fullName);
       }).catch(err => {
       })
     },
@@ -90,8 +103,10 @@ export default {
       this.$router.push({name: destination})
     },
     logout() {
-      this.$store.commit('token', "");
-      this.$router.replace({name: "Login"})
+      // this.$store.commit('token', "");
+      localStorage.clear();
+      // sessionStorage.removeItem('token');
+      this.$router.push({name: "Login"})
     }
   }
 }
@@ -105,6 +120,14 @@ export default {
 /*  overflow: auto;*/
 /*}*/
 
+.el-header {
+  padding: 0;
+}
+
+.el-menu-index {
+  padding: 0 20px;
+}
+
 .name-board {
   position: relative;
   float: right;
@@ -117,17 +140,22 @@ export default {
   right: 0;
   list-style: none;
   margin: 0;
-  padding: 6px 20px;
+  padding: 6px 30px;
 }
 
 .name-bar li {
   float: left;
   height: 50px;
-  margin-left: 10px;
+  margin-left: 15px;
 
   -webkit-justify-content: center;
   justify-content: center;
   display: flex;
   align-items: center;
+}
+
+.eff-message {
+  font-size: 29px;
+  color: #F56C6C;
 }
 </style>
