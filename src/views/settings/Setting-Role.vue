@@ -14,8 +14,16 @@
           <el-table-column prop="roleId" label="ID" width="180"></el-table-column>
           <el-table-column prop="roleName" label="角色名" width="180"></el-table-column>
           <el-table-column prop="description" label="描述"></el-table-column>
-          <el-table-column width="120px" prop="" label="操作">
+          <el-table-column width="173px" prop="" label="操作">
             <template #default="scope">
+              <el-button
+                  size="mini"
+                  type="success"
+                  icon="el-icon-user"
+                  title="人员"
+                  round="true"
+                  @click="openUserTransfer(scope.row)">
+              </el-button>
               <el-button
                   size="mini"
                   type="warning"
@@ -59,20 +67,34 @@
     </el-form>
     <template #footer>
           <span class="dialog-footer">
-            <el-button @click="dialogVisible = false">取 消</el-button>
+            <el-button @click="dialogVisible = false">关 闭</el-button>
             <el-button type="primary" @click="saveRole()">确 定</el-button>
+          </span>
+    </template>
+  </el-dialog>
+  <el-dialog :title="currentRole" v-model="userTransferDialogVisible" width="760px">
+    <UserTransfer v-model="users" :value="users" @handleChange="userChange"></UserTransfer>
+    <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="closeDialog()">关 闭</el-button>
+            <el-button type="primary" @click="saveUsers()">确 定</el-button>
           </span>
     </template>
   </el-dialog>
 </template>
 
 <script>
+import UserTransfer from "@/components/UserTransfer";
 
 export default {
   name: "Setting-Group",
+  components: {
+    UserTransfer
+  },
   data() {
     return {
       dialogVisible: false,
+      userTransferDialogVisible: false,
       tableData: {
         list: [],
         pageNum: 1,
@@ -82,9 +104,9 @@ export default {
         roleName: "",
         description: ""
       },
-      rules: [
-
-      ]
+      rules: [],
+      currentRole: "",
+      users: []
     }
   },
   mounted() {
@@ -137,6 +159,33 @@ export default {
           this.init();
         } else {
           this.$message.error('删除失败!')
+        }
+      }).catch(err => {
+      })
+    },
+    openUserTransfer(row) {
+      this.userTransferDialogVisible = true;
+      this.currentRole = row.roleName;
+      console.log(this.currentRole);
+      this.axios.post("/user/getUsersByRole", {role: this.currentRole}).then(response => {
+        this.users = response.data;
+      }).catch(err => {
+      })
+    },
+    closeDialog() {
+      this.userTransferDialogVisible = false
+    },
+    userChange(users) {
+      this.users = users;
+    },
+    saveUsers() {
+      console.log(this.users);
+      this.axios.post("/role/joinInRoleUser", {roleName: this.currentRole, userNames: this.users}).then(response => {
+        if (response.data) {
+          this.$message.success('保存成功!')
+          this.userTransferDialogVisible = false;
+        } else {
+          this.$message.error('保存失败!')
         }
       }).catch(err => {
       })

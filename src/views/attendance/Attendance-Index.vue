@@ -80,34 +80,7 @@
           </el-card>
         </el-main>
         <el-aside style="padding: 10px">
-          <h1 class="j-title" style="margin: 1em 0">剩余调休</h1>
-          <el-card class="box-card vacation-balance" :body-style="{ padding: '20px'}" style="margin: 0">
-            <p>
-              <!--              <span class="figure">{{ vacationBalance.day }}</span>-->
-              <!--              <span class="unit">天</span>-->
-              <span class="figure">{{ vacationBalance.hour }}</span>
-              <span class="unit">时</span>
-            </p>
-            <div style="text-align: center; padding-left: 12px">
-              <el-space size="medium">
-                <!--                <el-upload style="margin-left: 8px;"-->
-                <!--                           class="upload-demo inline-block margin-right-10"-->
-                <!--                           action=""-->
-                <!--                           :on-change="handleChange"-->
-                <!--                           :show-file-list="false"-->
-                <!--                           :on-remove="handleRemove"-->
-                <!--                           :file-list="fileListUpload"-->
-                <!--                           :limit="limitUpload"-->
-                <!--                           accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"-->
-                <!--                           :auto-upload="false">-->
-                <!--                  <el-button  type="primary">导入</el-button>-->
-                <!--                </el-upload>-->
-
-                <AttendanceLeave></AttendanceLeave>
-                <AttendanceOvertime></AttendanceOvertime>
-              </el-space>
-            </div>
-          </el-card>
+          <RestBalance></RestBalance>
         </el-aside>
       </el-container>
     </el-col>
@@ -139,12 +112,15 @@
 import AttendanceLeave from './Attendance-leave'
 import AttendanceOvertime from './Attendance-overtime'
 import AttendanceConfig from './Attendance-config'
+import RestBalance from './RestBalance'
+
 
 export default {
   components: {
     AttendanceLeave,
     AttendanceOvertime,
-    AttendanceConfig
+    AttendanceConfig,
+    RestBalance
   },
   data() {
     return {
