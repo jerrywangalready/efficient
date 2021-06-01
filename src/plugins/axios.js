@@ -53,6 +53,8 @@ axios.interceptors.response.use(response => {
         switch (error.response.status) {
             case 401:
                 this.$store.commit('del_token');
+                // 清空本地token
+                // localStorage.clear();
                 router.replace({
                     name: "Login",
                     query: {redirect: router.currentRoute.fullPath}

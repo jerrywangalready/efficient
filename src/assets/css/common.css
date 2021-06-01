@@ -16,9 +16,47 @@
 }
 
 .el-table .table-header,.el-table .table-header th {
-    /*background-color: #409EFF;*/
-    background-color: #007AFF;
-    /*background-color: rgba(64, 158, 255, 0.11);*/
-    color: #ffffff;
-    /*color: #3e3e3e;*/
+    /*background-color: #697A8F;*/
+    /*background-color: #f5f7fa;*/
+    background-color: #efefef;
+    /*color: #ffffff;*/
+    color: #3e3e3e;
+}
+
+.list-normal {
+    list-style: none;
+}
+
+/*颜色*/
+.warning-background {
+    background: #E6A23C;
+}
+
+.gray-background {
+    background: #f9f9f9;
+}
+
+/*按钮*/
+.button-hover:hover {
+    box-shadow: 0 3px 5px 0 #888888;
+}
+
+/*卡片*/
+.el-card {
+    border-radius: 20px;
+}
+
+/*tabs*/
+.el-tabs {
+    border-radius: 20px;
+}
+
+.el-tabs .el-tabs__header {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.el-tabs .el-tabs__item:first-child {
+    border-top-left-radius: 20px;
+    border-top: 1px;
 }

@@ -7,7 +7,7 @@
       <span class="figure">{{ vacationBalance.hour }}</span>
       <span class="unit">时</span>
     </p>
-    <hr/>
+    <el-divider></el-divider>
     <ul>
       <li>加班:45</li>
       <li>即将过期14</li>
@@ -29,7 +29,7 @@
         <!--                  <el-button  type="primary">导入</el-button>-->
         <!--                </el-upload>-->
 
-        <AttendanceLeave></AttendanceLeave>
+        <LeaveDialog></LeaveDialog>
         <AttendanceOvertime></AttendanceOvertime>
       </el-space>
     </div>
@@ -37,12 +37,12 @@
 </template>
 
 <script>
-import AttendanceLeave from './Attendance-leave'
+import LeaveDialog from './leave/LeaveDialog'
 import AttendanceOvertime from './Attendance-overtime'
 
 export default {
   components: {
-    AttendanceLeave,
+    LeaveDialog,
     AttendanceOvertime
   },
   data() {

@@ -109,16 +109,12 @@
 </template>
 
 <script>
-import AttendanceLeave from './Attendance-leave'
-import AttendanceOvertime from './Attendance-overtime'
 import AttendanceConfig from './Attendance-config'
 import RestBalance from './RestBalance'
 
 
 export default {
   components: {
-    AttendanceLeave,
-    AttendanceOvertime,
     AttendanceConfig,
     RestBalance
   },

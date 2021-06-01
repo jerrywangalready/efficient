@@ -4,7 +4,7 @@
     <el-col :span="24">
       <el-card>
         <div class="button-box">
-          <el-button type="primary" round @click="open()">新增</el-button>
+          <el-button type="primary" round @click="open()" size="mini">新增</el-button>
         </div>
         <el-table
             :data="tableData.list"
@@ -55,7 +55,7 @@
       </el-card>
     </el-col>
   </el-row>
-  <el-dialog title="创建角色" v-model="dialogVisible" width="540px">
+  <el-dialog title="角色信息" v-model="dialogVisible" width="540px">
     <el-form :model="roleForm" :rules="rules" ref="roleForm">
       <el-form-item label="角色名" prop="groupName" label-width="60px">
         <el-input v-model="roleForm.roleName" placeholder="请输角色名"></el-input>
@@ -63,7 +63,6 @@
       <el-form-item label="描述" prop="groupName" label-width="60px">
         <el-input v-model="roleForm.description" placeholder="请输入描述"></el-input>
       </el-form-item>
-
     </el-form>
     <template #footer>
           <span class="dialog-footer">
@@ -72,11 +71,11 @@
           </span>
     </template>
   </el-dialog>
-  <el-dialog :title="currentRole" v-model="userTransferDialogVisible" width="760px">
-    <UserTransfer v-model="users" :value="users" @handleChange="userChange"></UserTransfer>
+  <el-dialog :title="currentRole" v-model="userTransferDialogVisible" destroy-on-close width="760px">
+    <UserTransfer v-model="users" :value="users"  @handleChange="userChange"></UserTransfer>
     <template #footer>
           <span class="dialog-footer">
-            <el-button @click="closeDialog()">关 闭</el-button>
+            <el-button @click="userTransferDialogVisible = false">关 闭</el-button>
             <el-button type="primary" @click="saveUsers()">确 定</el-button>
           </span>
     </template>
@@ -168,12 +167,12 @@ export default {
       this.currentRole = row.roleName;
       console.log(this.currentRole);
       this.axios.post("/user/getUsersByRole", {role: this.currentRole}).then(response => {
-        this.users = response.data;
+        this.users = []
+        response.data.forEach(item=>{
+          this.users.push(item.userName);
+        })
       }).catch(err => {
       })
-    },
-    closeDialog() {
-      this.userTransferDialogVisible = false
     },
     userChange(users) {
       this.users = users;

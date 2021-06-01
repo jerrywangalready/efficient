@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { ElMessage } from 'element-plus'
+import {ElMessage} from 'element-plus'
 // import myTest from "@/api";
 // import {myPost} from '@/api/ajax'
 export default {
@@ -101,6 +101,8 @@ export default {
 
       // this.axios.post("/holiday/test", param).then((response) => {
       this.axios.post("/holiday/getHolidaysByYear", param).then((response) => {
+        console.log(response);
+
         this.holidays = response.data;
         // 将catch中暂存的日期补充到holidays对象中
         this.holidaysCatch.forEach(item => {
@@ -109,7 +111,7 @@ export default {
           } else if (item.opt === '0') {
             this.holidays.filter(h => h.holiday === item.day)[0].during = 'pm';
           } else {
-            this.holidays.forEach((h,index,arr)=>{
+            this.holidays.forEach((h, index, arr) => {
               if (h.holiday === item.day) {
                 this.holidays.splice(index, 1)
               }
@@ -186,7 +188,8 @@ export default {
   font-weight: bold;
   border: 5px solid #F56C6C;
 }
-td.next .holiday-d {
+
+td.next .holiday-d, td.next .holiday-pm, td.prev .holiday-d, td.prev .holiday-pm {
   opacity: 0.5;
 
 }

@@ -74,6 +74,9 @@ export default {
       }
     }
   },
+  mounted() {
+    localStorage.clear();
+  },
   methods: {
     onSubmit() {
       this.$refs.form.validate((valid) => {
