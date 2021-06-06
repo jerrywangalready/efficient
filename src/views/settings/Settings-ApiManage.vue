@@ -4,7 +4,7 @@
     <el-col :span="24">
       <el-card>
         <div class="button-box">
-          <el-button type="primary" size="mini" round @click="open()">新增</el-button>
+          <el-button class="shadow" type="primary" size="mini" round @click="open()" icon="el-icon-plus" title="新增"></el-button>
         </div>
         <el-table
             :data="tableData.list"
@@ -43,8 +43,8 @@
                   size="mini"
                   type="warning"
                   icon="el-icon-edit"
-                  title="编辑"
                   round="true"
+                  title="修改"
                   @click="open(scope.row)">
               </el-button>
               <el-button
@@ -104,8 +104,8 @@
     </el-form>
     <template #footer>
           <span class="dialog-footer">
-            <el-button @click="dialogVisible = false">关 闭</el-button>
-            <el-button type="primary" @click="saveAPI()">确 定</el-button>
+            <el-button class="shadow" @click="dialogVisible = false">关 闭</el-button>
+            <el-button class="shadow" type="primary" @click="saveAPI()">确 定</el-button>
           </span>
     </template>
   </el-dialog>

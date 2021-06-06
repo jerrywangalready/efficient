@@ -1,6 +1,8 @@
 <template>
   <h1 class="j-title" style="margin: 1em 0">剩余调休</h1>
-  <el-card class="box-card vacation-balance" :body-style="{ padding: '20px'}" style="margin: 0">
+  <el-card class="box-card" :body-style="{ padding: '20px'}" style="margin: 0">
+    <div class="vacation-balance">
+
     <p>
       <!--              <span class="figure">{{ vacationBalance.day }}</span>-->
       <!--              <span class="unit">天</span>-->
@@ -14,7 +16,8 @@
       <li>年假:80</li>
       <li>(2021-12-14过期)40</li>
     </ul>
-    <div style="text-align: center; padding-left: 12px">
+    </div>
+    <div style="padding-left: 12px">
       <el-space size="medium">
         <!--                <el-upload style="margin-left: 8px;"-->
         <!--                           class="upload-demo inline-block margin-right-10"-->

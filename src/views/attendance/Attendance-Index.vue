@@ -87,7 +87,11 @@
   </el-row>
   <el-row>
     <el-col>
-      <h1 class="j-title">配置</h1>
+      <approve></approve>
+    </el-col>
+  </el-row>
+  <el-row>
+    <el-col>
       <attendance-config></attendance-config>
     </el-col>
   </el-row>
@@ -109,12 +113,14 @@
 </template>
 
 <script>
+import Approve from './Approve/Approve'
 import AttendanceConfig from './Attendance-config'
 import RestBalance from './RestBalance'
 
 
 export default {
   components: {
+    Approve,
     AttendanceConfig,
     RestBalance
   },
