@@ -17,10 +17,11 @@
 
 .el-table .table-header,.el-table .table-header th {
     /*background-color: #697A8F;*/
-    /*background-color: #f5f7fa;*/
-    background-color: #efefef;
+    background-color: #f5f7fa;
+    /*background-color: #efefef;*/
     /*color: #ffffff;*/
     color: #3e3e3e;
+    border-bottom: 1px solid #007aff;
 }
 
 .list-normal {
@@ -60,3 +61,7 @@
     border-top-left-radius: 20px;
     border-top: 1px;
 }
+.el-tabs .el-tabs__item {
+    border-top: 1px !important;
+}
+

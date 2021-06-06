@@ -49,7 +49,11 @@
               <template #default="scope">
                 <el-button
                     size="mini"
-                    @click="handleEdit(scope.$index, scope.row)">编辑
+                    round
+                    title="修改"
+                    type="warning"
+                    icon="el-icon-edit"
+                    @click="handleEdit(scope.$index, scope.row)">
                 </el-button>
               </template>
             </el-table-column>

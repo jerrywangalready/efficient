@@ -4,7 +4,7 @@
     <el-col :span="24">
       <el-card>
         <div class="button-box">
-          <el-button type="primary" round @click="open()" size="mini">新增</el-button>
+          <el-button type="primary" round @click="open()" size="mini" icon="el-icon-plus" title="新增"></el-button>
         </div>
         <el-table
             :data="tableData.list"

@@ -1,7 +1,8 @@
 <template>
   <el-button class="shadow" type="success" @click="dialogVisible = true" round>加班</el-button>
-  <el-dialog title="加班申请" v-model="dialogVisible" width="490px">
-    <el-form :model="overtimeForm" :rules="rules" ref="overtimeForm" label-width="100px" class="demo-ruleForm">
+  <el-dialog custom-class="gray-background" title="加班申请" v-model="dialogVisible" width="490px">
+    <el-form :model="overtimeForm" label-position="top" :rules="rules" ref="overtimeForm" label-width="100px"
+             class="demo-ruleForm">
       <el-card class="box-card">
         <el-form-item label="加班日期" required>
           <div class="block">
@@ -13,37 +14,43 @@
             </el-date-picker>
           </div>
         </el-form-item>
-  <!--      <el-form-item label="加班时间" required>-->
-  <!--        <el-time-picker-->
-  <!--            is-range-->
-  <!--            v-model="overtimeForm.time"-->
-  <!--            range-separator="-"-->
-  <!--            start-placeholder="开始时间"-->
-  <!--            end-placeholder="结束时间"-->
-  <!--            placeholder="选择时间范围"-->
-  <!--       >-->
-  <!--        </el-time-picker>-->
-  <!--      </el-form-item>-->
+        <!--      <el-form-item label="加班时间" required>-->
+        <!--        <el-time-picker-->
+        <!--            is-range-->
+        <!--            v-model="overtimeForm.time"-->
+        <!--            range-separator="-"-->
+        <!--            start-placeholder="开始时间"-->
+        <!--            end-placeholder="结束时间"-->
+        <!--            placeholder="选择时间范围"-->
+        <!--       >-->
+        <!--        </el-time-picker>-->
+        <!--      </el-form-item>-->
         <el-form-item label="加班事由" prop="desc">
           <el-input type="textarea" v-model="overtimeForm.reason"></el-input>
         </el-form-item>
       </el-card>
-      <ul class="list-normal settlement">
-        <li style="font-weight: bold;"><span>总时长</span><span></span></li>
-        <el-divider style="margin: 0 0 8px;background-color: #dee1e4;"></el-divider>
-
-        <!--        <li><span>减免</span><span>{{ settlement.remit }}</span></li>-->
-        <li><span>扣除调休</span><span>4小时</span></li>
-        <li><span>扣除年假</span><span>4小时</span></li>
-        <li><span>减免</span><span></span></li>
-      </ul>
     </el-form>
-    <template #footer>
-          <span class="dialog-footer">
-            <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="submitForm('overtimeForm')">确 定</el-button>
-          </span>
-    </template>
+    <ul class="list-normal settlement">
+      <li style="font-weight: bold;">
+        <span>总时长</span><span>12</span></li>
+      <el-divider style="margin: 15px 0;"></el-divider>
+    </ul>
+    <el-row class="leave-button-box" :gutter="5">
+      <el-col :span="19">
+        <el-button class="button-hover" type="primary" style="width: 100%"
+                   @click="submitForm('leaveForm')">确 定
+        </el-button>
+      </el-col>
+      <el-col :span="5">
+        <el-button class="button-hover" @click="cancel" style="width: 100%">取 消</el-button>
+      </el-col>
+    </el-row>
+    <!--    <template #footer>-->
+    <!--          <span class="dialog-footer">-->
+    <!--            <el-button @click="dialogVisible = false">取 消</el-button>-->
+    <!--            <el-button type="primary" @click="submitForm('overtimeForm')">确 定</el-button>-->
+    <!--          </span>-->
+    <!--    </template>-->
   </el-dialog>
 </template>
 
@@ -93,6 +100,5 @@ export default {
 
 <style scoped>
 .box-card {
-  background-color: #d7fbd6;
 }
 </style>

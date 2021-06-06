@@ -25,10 +25,10 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(response => {
     console.log(response);
     if (response.data.code === "401") {
-        ElMessage.error({
-            message: '登录超时,请重新登录！',
-            type: 'error'
-        });
+        // ElMessage.error({
+        //     message: '登录超时,请重新登录！',
+        //     type: 'error'
+        // });
 
         router.replace({
             name: "Login",

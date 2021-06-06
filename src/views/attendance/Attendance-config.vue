@@ -1,4 +1,5 @@
 <template>
+  <h1 class="j-title">配置</h1>
   <el-tabs type="border-card">
     <el-tab-pane label="打卡记录">
       <clock-in-records-board></clock-in-records-board>
